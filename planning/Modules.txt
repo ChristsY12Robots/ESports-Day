@@ -1,0 +1,11 @@
+possible modules:
+
+	Objects.py - robots/player classes.
+
+	Rendering.py - Handles rendering.
+
+	Main.py/Robots.py - This could be many things in my opinion.
+
+	Backround_Sys.py - this will handle data: scores , house teams , game save files, results.
+
+	Error.py- all errors handling goes to this module. maybe? this might not be needed.

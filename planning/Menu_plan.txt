@@ -1,0 +1,2 @@
+
+This program will be run when the user is not in a game.

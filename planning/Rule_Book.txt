@@ -1,0 +1,24 @@
+Current Rules:
+	
+	1: All functions/methods should be as modular as possible (not relying heavily on other functions).
+	2: All variables should be pre-declared at the top of the method/function for readability.
+	3: All variables should have names directly relating to their use, this prevents same named variables (example: pathfindLoop1).
+	4: All code should be explained by comments.
+	5: All code should be named and dated when changed or created (until the final version).
+	
+Pending Rules:
+	
+	1: Try to avoid global variables.
+	1.1: All global variables are named with capitals. max_players -> MAX_PLAYERS
+	2: Be explicit. Don't put your code on one line, unless you have a reason.
+	
+Conventions:
+	1: All functions have underscores. This prevents confusion - playmusic() -> play_music(). createelf() -> create_elf()
+	1.1: High level functions(functions that have a high significance) shoud be named with the first letters as capital.
+		open_file() would be a low level function. Next_Turn() would be a high level function. Note the capital "N" and "T".
+	1.2: All methods in a class are low level. game.next_turn() not game.Next_Turn().
+	2: Header - At the top of each source file, give a description of what the file does.
+	2.1: List all the functions and next to each function give a description of what the function does. 
+	2.2: Give a list of any dependencies within the file(things like imports). 
+	2.3: keep an update log within the source code.
+

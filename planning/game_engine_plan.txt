@@ -1,0 +1,70 @@
+This file only contains rough, brief ideas/thoughts. This is not intended to be the final design but instead just be things to think about.
+So please feel free edit this file.
+
+Game Engine. This will be run when the user is in game. 
+
+Program Structure, Thoughts and Ideas:
+	I Think it is very important to think thoroughly about the interaction of different parts of the program.
+	
+	First off, What game library is going to be used for Robots?
+		Possible Libraries:
+			Kivy
+			Pygame
+			Tool Kit Interface(Tkinter , python's standard GUI library.)
+			
+	
+	- What tasks do the modules need to do and how do the modules come together in order to make a playable Robots game?
+	- in what manner is a module going to complete tasks?
+		eg. the main game loop might do something like this:
+			[get keyboard input] -> [do something from the keyboard input] -> [do other things]
+			
+			or
+			
+			[do other things] -> [get keyboard input] -> [do something from the keyboard input]
+			
+			this is only an example, this might not be the final process.
+	
+	-How do objects interact with other objects?
+	-What tasks are objects in charge of. eg, is it the task of the objects (robots/player(s)) to check if they collide
+		with other objects, or does a more general system handle object collision.
+		
+		further more, what happends when an event such as a collsion occurs.
+			in the fist case:
+				Does an object invoke a function from the other object in which it is colliding with. 
+				This function could be something like Destroy(). In other words:
+					When object "A" collides with object "B", does object "A" call object "B"s destroy() function.
+				
+				Although this could be a method for collision, what is the process of destroying an object?
+				No other system in the program will know if an object destroys itself, which is why I think the second method is
+				better.
+				
+			in the second case:
+				Does a general system for collisions handle events after a collision. 
+				Here, instead of the objects invoking methods of other objects, the general system can determain if an object
+				is going to be destroyed(or whatever the general system whants to do.). This fixed the problem of self destroying objects.
+		
+	
+	Game loops:
+		idea 1:
+			Single main event:
+				iterupts(mouse/keyboard input)
+				object manipulation.
+				rendering.
+		idea 2:
+			Two concurrent loops:
+			
+				One Game Loop: (fast loop)
+					iterupts (mouse/keyboard input)
+					object manipulation
+					other systems
+					
+				One Render Loop: (one loop per frame, 30 loops a second for 30fps)
+					rendering.
+		idea 3:(Not likely to happend)
+			All objects are concurrent + One render loop.
+		
+		Which one should we use? Or maybe there are is better way to do this.
+			
+	optimisation:
+		This might need to be addressed on a later date.
+		
