@@ -1,5 +1,5 @@
 
-# in development
+# in development 22/11/17 Nathan
 """
 Simple Vector/Matrix program.
 
