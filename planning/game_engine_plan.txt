@@ -7,10 +7,12 @@ Program Structure, Thoughts and Ideas:
 	I Think it is very important to think thoroughly about the interaction of different parts of the program.
 	
 	First off, What game library is going to be used for Robots?
+	-Miles- Maybe we should think way into the future? Kivy does allow you to use the program as a phone app?
 		Possible Libraries:
 			Kivy
 			Pygame
 			Tool Kit Interface(Tkinter , python's standard GUI library.)
+		
 			
 	
 	- What tasks do the modules need to do and how do the modules come together in order to make a playable Robots game?
@@ -23,6 +25,7 @@ Program Structure, Thoughts and Ideas:
 			[do other things] -> [get keyboard input] -> [do something from the keyboard input]
 			
 			this is only an example, this might not be the final process.
+			
 	
 	-How do objects interact with other objects?
 	-What tasks are objects in charge of. eg, is it the task of the objects (robots/player(s)) to check if they collide
@@ -33,6 +36,9 @@ Program Structure, Thoughts and Ideas:
 				Does an object invoke a function from the other object in which it is colliding with. 
 				This function could be something like Destroy(). In other words:
 					When object "A" collides with object "B", does object "A" call object "B"s destroy() function.
+					
+-Miles- Is the scrappile class essentially a robot class? perhaps the robot is never destroyed but instead just changes state? (a state which hinders every other method, as in every method would have: if self.scrappile == False)
+^Miles - This way, all other systems do not need to know of the robots destruction, the only thing that would need to change is the scoreboard, which maybe should be a global variable for this reason? (I know its the devil but might be worth it in this case)
 				
 				Although this could be a method for collision, what is the process of destroying an object?
 				No other system in the program will know if an object destroys itself, which is why I think the second method is
@@ -50,8 +56,10 @@ Program Structure, Thoughts and Ideas:
 				iterupts(mouse/keyboard input)
 				object manipulation.
 				rendering.
+			^-Miles- I would imagine this is probably the most viable, especially as in turn based you can just wait on an input.
 		idea 2:
 			Two concurrent loops:
+			^Miles- Is it possible to have two major parts of a program to be concurrent? (In python at least)
 			
 				One Game Loop: (fast loop)
 					iterupts (mouse/keyboard input)
@@ -62,9 +70,11 @@ Program Structure, Thoughts and Ideas:
 					rendering.
 		idea 3:(Not likely to happend)
 			All objects are concurrent + One render loop.
+			
 		
 		Which one should we use? Or maybe there are is better way to do this.
 			
 	optimisation:
 		This might need to be addressed on a later date.
+		^Miles - We should definetly try and keep code as effiecient as possible, but we can go through at the end and sort any major 'slowness' issues
 		
