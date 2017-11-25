@@ -1,5 +1,5 @@
 #Collison example by Miles 25/11/17
-
+#I am sure that this could be made much more efficient, so dont hesitate to change anything to make the program better
 #Please feel free to fiddle with the numbers to test and check for errors, and remember this is an example so I've had to simulate the objects in the simplest way possible
 
 #I came up with this idea this morning, its advantage is the fact that the main program can do it, and it only needs to get data from the objects once
