@@ -6,6 +6,8 @@ Each table has parameters which are used to define fields(name , address).
 The program will do some checks. For example; checking to see if a record has matching fields with a 
 table or checking if a record already exists using a primary key.
 
+The program at the moment, can not read or write to files.
+
 """
 
 class Field_Profile():
