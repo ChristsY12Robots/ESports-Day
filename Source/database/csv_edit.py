@@ -1,9 +1,10 @@
-import datetime
+# work in progress.
 
+import datetime
 print (datetime.datetime.now())
 
 """
-Nathaniel Huesler: 
+Nathaniel Huesler: 03/12/2017
 
 Use this file to access and edit csv files. There are some simple rules.
 
@@ -112,10 +113,3 @@ file_data = CSV_File("/Users/terrencebarker/Documents/python_workspace/data/csvd
 file_data.print_raw()
 file_data.extract()
 file_data.print_data()
-
-
-
-
-
-
-            
