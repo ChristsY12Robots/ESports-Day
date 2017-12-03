@@ -1,4 +1,13 @@
 #User_Save Version 1 by Miles
+
+#if anyone can help, this is broken and i dont know why... 
+#when trying to check if the file i have created exists i use:
+#file = f.read()
+#if len(file) > 0: ... but apparently no matter what 'file' is empty??
+#this can be seen below
+
+
+
 #This version creates one file per user and saves their game data to it
 
 #this is the library which allows the fetching of a username, i hope its installed on the school machines? (it was already on mine...)
