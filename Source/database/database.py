@@ -1,4 +1,12 @@
-# still working on this file. comments will be added.
+# still working on this file. This is a prototype.comments will be added.
+
+"""
+This is a simple program to create database tables. 
+Each table has parameters which are used to define fields(name , address). 
+The program will do some checks. For example; checking to see if a record has matching fields with a 
+table or checking if a record already exists using a primary key.
+
+"""
 
 class Field_Profile():
     def __init__(self , name , data_type , options):
