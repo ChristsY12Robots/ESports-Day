@@ -109,7 +109,7 @@ class CSV_File():
         print (self.data)
 
 
-file_data = CSV_File("/Users/terrencebarker/Documents/python_workspace/data/csvdata.txt")
+file_data = CSV_File("file dirrectory")
 file_data.print_raw()
 file_data.extract()
 file_data.print_data()
