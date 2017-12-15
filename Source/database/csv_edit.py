@@ -7,7 +7,9 @@ print (datetime.datetime.now())
 Nathaniel Huesler: 03/12/2017
 Update -- Nathaniel Huesler: 04/12/2017
     Finished off methods for reading from a csv file with all the rules implemented.
-    
+Update -- Nathaniel Huesler: 08/12/2017
+    Added "read" and "write" classes. The "CSV_File_Read" class only contains read methods. The CSV_File_Write class contains read and write methods.
+    Both "CSV_File_Read" and "CSV_File_Write" inherit from "CSV_File"
     
 Use this file to access and edit csv files. There are some simple rules.
 (1):data are seperated with commas.
@@ -29,9 +31,13 @@ And this is what the program will produce:
     [some_data , [list_el_0 , list_el_1 , hello world] , more] <-- list within list.
 
 (4) A new line will create a new record.
-To edit csv files, use the CSV_File() class with the file dirrectory.
-Giving the file dirrectory will only open the file. To extract the data, use the CSV_File.extract() method. After doing this, the CSV_File.data attribute will contain the
+
+To read csv files, use the "CSV_File_Read()" class with the file dirrectory.
+Giving the file dirrectory will only open the file. To extract the data, use the "CSV_File.extract()" method. After doing this, the "CSV_File.data" attribute will contain the
 extracted data.
+
+To edit csv files, use the "CSV_File_Write()" class. This contains additional methods that allow you to edit csv files. Use the "CSV_File_Write.add_record()" to append a new
+record to csv data. Use "CSV_File_Write.write_record()" to overwrite a record. To save the file, use "CSV_File_Write.save()". 
 """
 
 
@@ -41,25 +47,32 @@ from os import path
 
 
 class CSV_File():
-    def __init__(self , filename):
+    def __init__(self , filename , perms):
         self.file_dir = filename # a string to store the file dirrectory and name.
+        self.perms = perms
         self.raw = "" # the data directly copied from a csv file.
         self.data = [] # this will hold the individual elements of the csv file.
 
-        self.open_file(filename)
+        self.open_file(filename , self.perms)
 
-    def open_file(self , filename):
+    def open_file(self , filename , perms):
         if (path.isfile(filename) == False): # check if the file exists
             print ("Error -- CSV_File.open: File '{0}' does not exist".format(filename))
             return
+        self.raw = ""
+        with open(filename , perms) as file:
+            for line in file:
+                self.raw += line
         
-        file = open(filename)
-        for letters in file: # go though the file and copy it's content into "self.raw"
-            self.raw += letters
+        #file = open(filename , perms)
+        #for lines in file.line(): # go though the file and copy it's content into "self.raw"
+        #    self.raw += letters
         self.file_dir = filename
 
+        file.close()
+
     def extract(self): # starter method. this will call the CSV_file.extract_loop() method.
-        line = "" # this will temporarily hold one line of the csv file. 
+        line = "" # this will temporarily hold one line of the csv file.
         for letter in self.raw:
             if (letter == "\n"): # if the program hits the end of the line
                 self.data.append(self.extract_loop(line , 0 , True)) # create a new record.
@@ -76,20 +89,31 @@ class CSV_File():
         result = [] # this is the returning data structure.
         if (reduce == True):
             string_data = self.remove_spaces(string_data)
+
             
         while (index < len(string_data)):
             if (string_data[index] == ","): # commna, new element.
-                result.append(temp)
+                try:
+                    result.append(int(temp))
+                except ValueError:
+                    result.append(temp)
                 temp = ""
             elif (string_data[index] == "["):# list clause.
                 temp_string = string_data[index+1 : self.skip_list(string_data , index)] # make a substing from the start to the end of the csv list.
                 result.append(self.extract_loop(temp_string , 0 , False)) # call extract_loop as if the substring is a new csv file and append the result to "result"
-                index = self.next_element(string_data , index) # skip over the list and move onn.
+                index = self.next_element(string_data , index) # skip over the list and move on.
+            elif (string_data[index] == "{"): # skip clause.
+                temp_string = string_data[index+1:self.skip(string_data , index)] # assign a tempory string to content of the skip.
+                result.append(temp_string) # append the temp string to the result.
+                index = self.next_element(string_data , index) # skip to the next element.
             else:
                 temp += string_data[index] # append to temp
             index += 1 # move to next charater.
         if (temp != ""): # make sure that there are no elements left behind.
-            result.append(temp)
+            try:
+                result.append(int(temp))
+            except:
+                result.append(temp)
         return (result)
 
     def remove_spaces(self , string_data): # removes spaces from string data and returns the result. skips over skip clauses.
@@ -99,12 +123,6 @@ class CSV_File():
         while (index < len(string_data)): # iterate through string.
             if (string_data[index] == " "): # if there is a space, then pass.
                 pass
-            elif (string_data[index] == "{"): # skip over skip clause.
-                temp = self.skip(string_data , index)
-                result += string_data[index+1:temp]
-                index = temp
-                if (index >= len(string_data)): # this is needed to prevent a potential error.
-                    return (result)
             else:
                 result += string_data[index] # append to result.
             index += 1
@@ -162,9 +180,79 @@ class CSV_File():
             print (record)
 
 
-file_data = CSV_File("Z:\\A level\\Robots\\Source_Code\\Database\\data.txt")
+class CSV_File_Read(CSV_File):
+    def __init__(self , filename):
+        super().__init__(filename , "r")
+
+    def open_file(self , filename):
+        super().open_file(filename , "r")
+
+    def get_data(self , index): # returns the data at a given index.
+        if (index >= len(self.data) or index < 0):
+            if (index == 0):
+                return
+            print ("Error -- CSV_File_Read.get_data: index out of range\n\trecord count = {0}\n\tindex = {1}".format(len(self.data) , index))
+            return
+        return (self.data[index])
+
+class CSV_File_Write(CSV_File):
+    def __init__(self , filename):
+        super().__init__(filename , "r+")
+
+    #def open_file(self , filename):
+    #    super().open_file(filename , "r+")
+
+    def add_record(self , data_in): # adds a record, no checking involved.
+        if (data_in == None):
+            return
+        self.data.append(data_in)
+
+    def write_record(self , data_in , index): # over-writes a record.
+        if (data_in == None):
+            return 
+        if (index >= len(self.data) or index < 0):
+            if (index == 0):
+                return
+            print ("Error -- CSV_File_Write.write:: Index out of range.\n\tdata size = {0}\n\t index = {1}".format(len(data_in) , index))
+            return
+        self.data[index] = data_in
+
+    def save(self , filename , perms):
+        with open(filename , "w+") as file:
+            self.raw = ""
+            for record in self.data:
+                self.raw += self.compress(record) + "\n"
+            file.write(self.raw)
+        
+    def compress(self , record):
+        result = ""
+        for field in record:
+            if (isinstance(field , list) == True):
+                result = result + ("[" + self.compress(field) + "]")
+            elif (isinstance(field , str) == True):
+                result += "{" + field + "}"
+            else:
+                result += str(field)
+            result += ","
+        if (result[len(result)-1] == ","):
+            result = result[0:len(result)-1]
+        return (result)
+
+
+file_data = CSV_File_Write("Z:\\A level\\Robots\\Source_Code\\Database\\data.txt")
 file_data.extract()
-print ("-------------------------------")
+file_data.open_file("data_2.txt" , "r")
+file_data.extract()
+#file_data.save("data_3.txt" , "a")
+
+file_data.add_record(["hello thete , gfdf"])
+file_data.extract()
+
 file_data.print_data()
-print ("-------------------------------")
-file_data.print_raw()
+
+
+
+#file_data.save("data_3.txt" , "a")
+#print ("-------------------------------")
+#file_data.print_data()
+
