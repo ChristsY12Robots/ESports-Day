@@ -23,6 +23,10 @@ IMG_NAMES       = ["ship", "ship", "mystery", "enemy1_1", "enemy1_2", "enemy2_1"
 IMAGES          = {name: image.load("images/{}.png".format(name)).convert_alpha()
                                 for name in IMG_NAMES}
 
+
+#call main_space_invaders to start
+
+
 class Ship(sprite.Sprite):
         def __init__(self):
                 sprite.Sprite.__init__(self)
@@ -281,6 +285,7 @@ class Text(object):
 
 class SpaceInvaders(object):
         def __init__(self):
+                self.score = 0
                 mixer.pre_init(44100, -16, 1, 512)
                 init()
                 self.caption = display.set_caption('Space Invaders')
@@ -570,6 +575,7 @@ class SpaceInvaders(object):
 
         #I ADDED THIS 
         def end_screen_display(self,score):
+                self.score = score
                 score_display = score
                 #score_display = score_display + (player.lives * 500)
                 scoretext = largefont.render(str(score_display), True, WHITE)
@@ -577,7 +583,7 @@ class SpaceInvaders(object):
                 SCREEN.blit(scoretext, [width/2-50, height/2 - 5])
                 display.update()
                 time.wait(5000)
-                quit()
+                
         #^^^^^^^^
         #EDITTED
         def create_game_over(self, currentTime):
@@ -597,10 +603,11 @@ class SpaceInvaders(object):
                 score=self.score
                 self.end_screen_display(score)
                 print(score)
-                #sys quit
-                import pygame
-                pygame.quit()
-                sys.exit()
+                
+                
+
+        def get_score(self):
+                return(self.score)
 
         def main(self):
                 while True:
@@ -654,15 +661,21 @@ class SpaceInvaders(object):
         
                         elif self.gameOver:
                                 currentTime = time.get_ticks()
-                                # Reset enemy starting position
+                                self.startGame = False
+                                self.mainScreen = False
                                 print("Game over")
-                                self.enemyPositionStart = self.enemyPositionDefault
+                                # Reset enemy starting position
+                                #self.enemyPositionStart = self.enemyPositionDefault
                                 self.create_game_over(currentTime)
+                                break
 
                         display.update()
                         self.clock.tick(60)
                                 
 
-if __name__ == '__main__':
+def main_space_invaders():
         game = SpaceInvaders()
         game.main()
+        score = game.get_score()
+        return(score)
+        quit()
