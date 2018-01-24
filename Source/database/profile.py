@@ -15,21 +15,6 @@ h = 'raspberrypi.local'
 db = 'esports'
 p = 3306
 
-#query = ""
-#query2 = "SELECT Game, Score, User, Timestamp FROM gamescores WHERE user = 'Hubble'"
-
-# Select data from table using SQL query.
-#num_rows = cursor.execute(query)
-
-#cursor.execute(query2)
-#for (Game, Score, User, Timestamp) in cursor:
-#  print(Game, Score, User, Timestamp)
-
-#print(num_rows)
-#cnx.commit()
-#cursor.close()
-#cnx.close()
-
 # Use the "User_Profile" class to save user data. The User profile class will save the user datato a database and to a local file. 
 # The "User_Profile" constructor takes the user's username as an argument. When the user finished a game, call the add_game_record()
 # method. This will save the score and game to the database. To save a local file, call the save() method. To update the score call the
@@ -83,21 +68,3 @@ class User_Profile():
 
         self.cursor.close()
         self.db.close()
-        
-    
-
-def play_game():
-  return (random.randint(10 , 100))
-
-def play_games(profile):
-    for i in range(0 , 10000 , 1):
-        profile.update_score(play_game())
-        profile.add_game_record("robots")
-        profile.save()
-        
-profile = User_Profile("HubCo")
-play_games(profile)
-
-        
-
-
