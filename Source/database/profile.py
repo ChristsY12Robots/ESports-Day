@@ -30,7 +30,10 @@ p = 3306
 #cursor.close()
 #cnx.close()
 
-
+# Use the "User_Profile" class to save user data. The User profile class will save the user datato a database and to a local file. 
+# The "User_Profile" constructor takes the user's username as an argument. When the user finished a game, call the add_game_record()
+# method. This will save the score and game to the database. To save a local file, call the save() method. To update the score call the
+# Update_Score() method.
 
 class User_Profile():
     def __init__(self , username_in):
