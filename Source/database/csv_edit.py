@@ -1,7 +1,6 @@
 # work in progress.
 
 import datetime
-print (datetime.datetime.now())
 
 """
 Nathaniel Huesler: 03/12/2017
@@ -260,22 +259,3 @@ class CSV_File_Write(CSV_File):
         if (result[len(result)-1] == ","):
             result = result[0:len(result)-1]
         return (result)
-
-
-"""file_data = CSV_File_Write("Z:\\A level\\Robots\\Source_Code\\Database\\data.txt")
-file_data.extract()
-file_data.open_file("data_2.txt" , "r")
-file_data.extract()
-#file_data.save("data_3.txt" , "a")
-
-file_data.add_record(["hello thete , gfdf"])
-file_data.extract()
-
-file_data.print_data()
-
-
-
-#file_data.save("data_3.txt" , "a")
-#print ("-------------------------------")
-#file_data.print_data()"""
-
