@@ -53,11 +53,14 @@ class CSV_File():
         self.raw = "" # the data directly copied from a csv file.
         self.data = [] # this will hold the individual elements of the csv file.
 
-        self.open_file(filename , self.perms)
+        if (filename != ""):
+            self.open_file(filename , self.perms)
 
     def open_file(self , filename , perms):
+        if (filename == None):
+            filename = self.file_dir
         if (path.isfile(filename) == False): # check if the file exists
-            print ("Error -- CSV_File.open: File '{0}' does not exist".format(filename))
+            print ("Error -- CSV_File::open: File '{0}' does not exist".format(filename))
             return
         self.raw = ""
         with open(filename , perms) as file:
@@ -179,6 +182,9 @@ class CSV_File():
         for record in self.data:
             print (record)
 
+    def print_meta(self):
+        print ("dir: {0}\nperms: {1}\n".format(self.file_dir , self.perms) , end="")
+
 
 class CSV_File_Read(CSV_File):
     def __init__(self , filename):
@@ -191,7 +197,7 @@ class CSV_File_Read(CSV_File):
         if (index >= len(self.data) or index < 0):
             if (index == 0):
                 return
-            print ("Error -- CSV_File_Read.get_data: index out of range\n\trecord count = {0}\n\tindex = {1}".format(len(self.data) , index))
+            print ("Error -- CSV_File_Read::get_data: index out of range\n\trecord count = {0}\n\tindex = {1}".format(len(self.data) , index))
             return
         return (self.data[index])
 
@@ -199,8 +205,15 @@ class CSV_File_Write(CSV_File):
     def __init__(self , filename):
         super().__init__(filename , "r+")
 
-    #def open_file(self , filename):
-    #    super().open_file(filename , "r+")
+    def open_file(self , filename):
+        super().open_file(filename , "r+")
+
+    def create_file(self , filename , suffix):
+        self.file_dir = path.dirname(path.abspath(__file__)) + "\\" + filename + "." + suffix
+        tempory_file = open(self.file_dir , "w+")
+        tempory_file.close()
+        super().open_file(self.file_dir , "r+")
+        super().extract()
 
     def add_record(self , data_in): # adds a record, no checking involved.
         if (data_in == None):
@@ -213,11 +226,21 @@ class CSV_File_Write(CSV_File):
         if (index >= len(self.data) or index < 0):
             if (index == 0):
                 return
-            print ("Error -- CSV_File_Write.write:: Index out of range.\n\tdata size = {0}\n\t index = {1}".format(len(data_in) , index))
+            print ("Error -- CSV_File_Write::write:: Index out of range.\n\tdata size = {0}\n\t index = {1}".format(len(data_in) , index))
             return
         self.data[index] = data_in
 
-    def save(self , filename , perms):
+    def write_field(self , data_in , record , element):
+        if (data_in == None):
+            return
+        
+    def save(self , filename):
+        if (filename == None):
+            filename = self.file_dir
+        if (path.isfile(filename) == False): # check if the file exists
+            print ("Error -- CSV_File_Write::save: File '{0}' does not exist".format(filename))
+            return
+        
         with open(filename , "w+") as file:
             self.raw = ""
             for record in self.data:
@@ -239,7 +262,7 @@ class CSV_File_Write(CSV_File):
         return (result)
 
 
-file_data = CSV_File_Write("Z:\\A level\\Robots\\Source_Code\\Database\\data.txt")
+"""file_data = CSV_File_Write("Z:\\A level\\Robots\\Source_Code\\Database\\data.txt")
 file_data.extract()
 file_data.open_file("data_2.txt" , "r")
 file_data.extract()
@@ -254,5 +277,5 @@ file_data.print_data()
 
 #file_data.save("data_3.txt" , "a")
 #print ("-------------------------------")
-#file_data.print_data()
+#file_data.print_data()"""
 
