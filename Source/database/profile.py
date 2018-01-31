@@ -15,10 +15,22 @@ h = 'raspberrypi.local'
 db = 'esports'
 p = 3306
 
-# Use the "User_Profile" class to save user data. The User profile class will save the user datato a database and to a local file. 
-# The "User_Profile" constructor takes the user's username as an argument. When the user finished a game, call the add_game_record()
-# method. This will save the score and game to the database. To save a local file, call the save() method. To update the score call the
-# Update_Score() method.
+#query = ""
+#query2 = "SELECT Game, Score, User, Timestamp FROM gamescores WHERE user = 'Hubble'"
+
+# Select data from table using SQL query.
+#num_rows = cursor.execute(query)
+
+#cursor.execute(query2)
+#for (Game, Score, User, Timestamp) in cursor:
+#  print(Game, Score, User, Timestamp)
+
+#print(num_rows)
+#cnx.commit()
+#cursor.close()
+#cnx.close()
+
+
 
 class User_Profile():
     def __init__(self , username_in):
@@ -59,12 +71,34 @@ class User_Profile():
         
     def add_game_record(self , game):
         self.file.add_record([game , self.score])
-
-        self.db = mysql.connector.connect(user=usr, password=pwd, host=h, database=db, port=p) # connect to database
-        self.cursor = self.db.cursor()
+        try:
+            self.db = mysql.connector.connect(user=usr, password=pwd, host=h, database=db, port=p) # connect to database
+            self.cursor = self.db.cursor()
       
-        self.cursor.execute("INSERT INTO gamescores (User, Game, Score) VALUES('{0}' , '{1}' , {2})".format(self.username , game , self.score)) # execute insert command
-        self.db.commit() # commit changes.
+            self.cursor.execute("INSERT INTO gamescores (User, Game, Score) VALUES('{0}' , '{1}' , {2})".format(self.username , game , self.score)) # execute insert command
+            self.db.commit() # commit changes.
 
-        self.cursor.close()
-        self.db.close()
+            self.cursor.close()
+            self.db.close()
+        except mysql.connector.Error as err:
+            error_log = csv_edit.CSV_File_Write("")
+            error_log.add_record([str(err)])
+            error_log.save(self.username + "_error_log.esp")
+            print (err)
+
+        
+    
+
+"""def play_game():
+  return (random.randint(10 , 100))
+
+def play_games(profile):
+    profile.update_score(play_game())
+    profile.add_game_record("robots")
+    profile.save()
+        
+profile = User_Profile("spam")
+play_games(profile)"""
+
+
+
