@@ -17,7 +17,7 @@
 # - Mom's eyes aren't what they used to be, so I'm switching 16x16 tiles to 24x24
 #   Added constants TILE_WIDTH,TILE_HEIGHT to make this easier to change later.
 
-import pygame, sys, os, random
+import pygame, sys, os, random, getpass
 from pygame.locals import *
 
 # WIN???
@@ -90,6 +90,15 @@ ghostcolor[2] = (128, 255, 255, 255)
 ghostcolor[3] = (255, 128, 0, 255)
 ghostcolor[4] = (50, 50, 255, 255) # blue, vulnerable ghost
 ghostcolor[5] = (255, 255, 255, 255) # white, flashing ghost
+
+#ADDED 31/1/18
+#FUNCTION WIPES SAVE FILE TO ENSURE PROPERLY SAVED FILES
+def file_game_start():
+    game = "pacman"
+    file_name = str(str(getpass.getuser())+"_"+game+".esp")
+    f = open(file_name, "w")
+    f.close()
+
 
 #      ___________________
 # ___/  class definitions  \_______________________________________________
@@ -301,6 +310,10 @@ class game ():
                 self.mode = newMode
                 self.modeTimer = 0
                 # print " ***** GAME MODE IS NOW ***** " + str(newMode)
+
+        #added 31/01/18
+        def get_score(self):
+                return(self.score)
                 
 class node ():
         
@@ -1395,6 +1408,10 @@ def CheckInputs():
         elif thisGame.mode == 3:
                 if pygame.key.get_pressed()[ pygame.K_RETURN ] or (js!=None and js.get_button(JS_STARTBUTTON)):
                         thisGame.StartNewGame()
+                #added 31/1/18 NEED CONSULTATION ON ROUTE TO EXIT?
+                elif pygame.key.get_pressed()[ pygame.K_ESCAPE ]:
+                        pygame.quit()
+                        quit()
                         
 
         
@@ -1458,9 +1475,19 @@ def GetCrossRef ():
                         # print str_splitBySpace[0] + " is married to " + str_splitBySpace[1]
                 lineNum += 1
 
+#added 31/1/18
+def save_file(score):
+    game = "pacman" #could be changed
+    file_name = str(str(getpass.getuser())+"_"+game+".esp")
+    f = open(file_name, "a")
+    f.write(str(score)+","+game)
+    f.close()
 
 #      __________________
 # ___/  main code block  \_____________________________________________________
+
+#ADDED 31/1/18 WIPES SAVE FILE
+file_game_start()
 
 # create the pacman
 player = pacman()
@@ -1531,6 +1558,8 @@ while True:
                 #ADDED
                 if STARTOFGAMECHECK == False and PRINTCHECK == False: #STOPS A PRINT LOOP
                         print"gameOver"
+                        local_score = thisGame.get_score()
+                        save_file(local_score)
                         PRINTCHECK = True
                 CheckInputs() #CHECKING FOR ENTER KEY
                 if thisGame.mode != 3:
