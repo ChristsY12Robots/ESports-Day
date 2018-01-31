@@ -1,6 +1,7 @@
 # work in progress.
 
 import datetime
+print (datetime.datetime.now())
 
 """
 Nathaniel Huesler: 03/12/2017
@@ -9,6 +10,9 @@ Update -- Nathaniel Huesler: 04/12/2017
 Update -- Nathaniel Huesler: 08/12/2017
     Added "read" and "write" classes. The "CSV_File_Read" class only contains read methods. The CSV_File_Write class contains read and write methods.
     Both "CSV_File_Read" and "CSV_File_Write" inherit from "CSV_File"
+Update -- Nathanuel Huesler: 30/01/2018
+    Fixed some bugs.
+    Writing to a file using the "CSV_File_Write" class no longer prints an error when the filename does not exists. Instead, a new file is created.
     
 Use this file to access and edit csv files. There are some simple rules.
 (1):data are seperated with commas.
@@ -237,8 +241,9 @@ class CSV_File_Write(CSV_File):
         if (filename == None):
             filename = self.file_dir
         if (path.isfile(filename) == False): # check if the file exists
-            print ("Error -- CSV_File_Write::save: File '{0}' does not exist".format(filename))
-            return
+            pass
+            #print ("Error -- CSV_File_Write::save: File '{0}' does not exist".format(filename))
+            #return
         
         with open(filename , "w+") as file:
             self.raw = ""
@@ -259,3 +264,23 @@ class CSV_File_Write(CSV_File):
         if (result[len(result)-1] == ","):
             result = result[0:len(result)-1]
         return (result)
+
+
+"""file_data = CSV_File_Write("Z:\\A level\\Robots\\Source_Code\\Database\\data.txt")
+file_data.extract()
+file_data.open_file("data_2.txt" , "r")
+file_data.extract()
+#file_data.save("data_3.txt" , "a")
+
+file_data.add_record(["hello thete , gfdf"])
+file_data.extract()
+
+file_data.print_data()
+
+
+
+#file_data.save("data_3.txt" , "a")
+#print ("-------------------------------")
+#file_data.print_data()"""
+
+
