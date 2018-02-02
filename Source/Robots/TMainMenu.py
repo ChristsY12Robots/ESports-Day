@@ -1,6 +1,7 @@
 import pygame
 import os
 import subprocess
+import profile
 
 width, height = 800,600
 pygame.init()
@@ -9,9 +10,32 @@ pygame.display.set_caption('Main Menu')
 
 fps = pygame.time.Clock()
 MainMenu = pygame.image.load('MainMenu.jpg')
+#editted by Miles Burne 1/2/18 to add reciver functionality in the launching and closing of tetris and pacman
+import getpass #to get the user's name
+
+#ADDED
+#function to recieve the file on the other end, needs an input of the game name ("pacman","tetris")
+def reciever(game):
+    username = (getpass.getuser()).lower() #I found an issue where if the user logs in with caps enabled, the username will be all caps in program. Not a big deal but may as well solve it.
+    user_profile = profile.User_Profile(username) #getting user profile
+    filename = (str(username)+"_"+str(game)+".esp") #getting filename
+    f = open(filename, "r")
+    content = f.read()
+    content = content.split("\n") #file now split into number of records
+    for x in content:
+        x = x.split(",") #now split into [score, game]
+        user_profile.update_score(x[0])# updating the score
+        user_profile.add_game_record(game)
+        user_profile.save()
+        
+    
 
 def pacman():
-    print('Pacman')
+    '''RUN game'''
+    #ADDED 1/2/18
+    reciever('pacman')
+    pass
+    
 
 def run():   
     subprocess.call('main.py', shell = True)
@@ -22,7 +46,9 @@ def space_invaders():
     pass
 
 def tetris():
-    print('Tetris')
+    '''RUN game'''
+    #ADDED 1/2/18
+    reciever('tetris')
     pass
 
 while True:    
