@@ -15,6 +15,7 @@ import getpass #to get the user's name
 
 #ADDED
 #function to recieve the file on the other end, needs an input of the game name ("pacman","tetris")
+#FUNCTION TAKES LOWER CASE NAMES
 def reciever(game):
     username = (getpass.getuser()).lower() #I found an issue where if the user logs in with caps enabled, the username will be all caps in program. Not a big deal but may as well solve it.
     user_profile = profile.User_Profile(username) #getting user profile
@@ -22,6 +23,7 @@ def reciever(game):
     f = open(filename, "r")
     content = f.read()
     content = content.split("\n") #file now split into number of records
+    content.pop(len(content)-1) #removing the '\n' character
     for x in content:
         x = x.split(",") #now split into [score, game]
         user_profile.update_score(x[0])# updating the score
