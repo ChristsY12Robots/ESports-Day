@@ -1,5 +1,10 @@
+#editted Miles Burne 2/2/18
+
 import pygame as pg
 import sys,random
+import getpass
+import profile
+
 def collide(x1,y1,x2,y2,x3,y3,x4,y4):
     if (x3+x4) > x1 > x3 and (y3+y4) > y1 > y3 or (x3+x4) > x2 >x3 and (y3+y4) > y2 > y3:
         return True
@@ -26,8 +31,6 @@ class snake():
         self.old_pos = [[20,20]]
         self.direction = [0,0]
         self.score = 0
-    def get_score(self):
-        return(self.score)
     def right(self):
         self.direction = [self.speed,0]
     def left(self):
@@ -93,7 +96,17 @@ class game():
             t.fill(color)
             self.blocks.append([t, [790,x]])
         self.apple = apple(size)
+
+    #added 2/2/18
+    def save(self):
+        username = getpass.getuser()
+        user_profile = profile.User_Profile(username)
+        user_profile.update_score(self.score)
+        user_profile.add_game_record('Snake')
+        user_profile.save()
+        
     def over(self):
+        self.save()
         while 1:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
