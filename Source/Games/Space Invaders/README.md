@@ -8,6 +8,10 @@ Space Invaders
 [![Release](https://img.shields.io/badge/release-v1.0-orange.svg?style=flat
 )](http://www.leejamesrobinson.com/space-invaders.html)
 
+EDITTED - Miles Burne 2/2/18
+added a call to the profile program to contact a database
+
+
 About
 -----
 Space Invaders is a two-dimensional fixed shooter game in which the player controls a ship with lasers by moving it horizontally
