@@ -101,16 +101,23 @@ class game():
     def save(self):
         username = getpass.getuser()
         user_profile = profile.User_Profile(username)
-        user_profile.update_score(self.score)
+        user_profile.update_score(self.snake.score)
         user_profile.add_game_record('Snake')
         user_profile.save()
         
     def over(self):
         self.save()
+        
         while 1:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
-                    sys.exit()
+                    pgquit()
+                    quit()
+                elif event.type == pg.KEYDOWN:
+                    if event.key == pg.K_ESCAPE:
+                            pg.quit()
+                            quit()
+                    
             for x in self.blocks:
                 self.screen.blit(x[0],x[1])
             txts = pg.font.SysFont('Courier New',50).render('Game Over    Score:',True,(255,255,255))
@@ -199,7 +206,8 @@ class game():
             self.screen.blit(self.snake.image,self.snake.pos)
             for event in pg.event.get():
                 if event.type == pg.QUIT:
-                    sys.exit()
+                    pg.quit()
+                    quit()
                 elif event.type == pg.KEYDOWN:
                     if event.key == pg.K_RIGHT:
                         if self.left == False:
@@ -221,6 +229,9 @@ class game():
                             self.reset()
                             self.snake.down()
                             self.down = True
+                    if event.key == pg.K_ESCAPE:
+                        pg.quit()
+                        quit()
             pg.display.update()
 class startmenu():
     def __init__(self):
@@ -300,7 +311,8 @@ class startmenu():
             self.make_text(400, 150, 'SNAKE GAME', color = (255,255,255), size = 80, a = True)
             for event in pg.event.get():
                 if event.type == pg.QUIT:
-                    sys.exit()
+                    pg.quit()
+                    quit()
             for x in self.blocks:
                 self.screen.blit(x[0],x[1])
             for x in self.buttons:
