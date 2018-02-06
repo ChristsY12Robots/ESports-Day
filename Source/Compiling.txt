@@ -1,0 +1,6 @@
+Miles Burne 6/2/18
+All done in CMD:
+
+- pip install pyinstaller
+- pyinstaller --onefile TARGET_FILE.PY
+- the .exe should be in a new build folder created in the folder
