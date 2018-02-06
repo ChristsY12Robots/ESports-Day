@@ -10,9 +10,18 @@ Update -- Nathaniel Huesler: 04/12/2017
 Update -- Nathaniel Huesler: 08/12/2017
     Added "read" and "write" classes. The "CSV_File_Read" class only contains read methods. The CSV_File_Write class contains read and write methods.
     Both "CSV_File_Read" and "CSV_File_Write" inherit from "CSV_File"
-Update -- Nathanuel Huesler: 30/01/2018
+Update -- Nathaniel Huesler: 30/01/2018
     Fixed some bugs.
-    Writing to a file using the "CSV_File_Write" class no longer prints an error when the filename does not exists. Instead, a new file is created.
+         -Writing to a file using the "CSV_File_Write" class no longer prints an error when the filename does not exists. Instead, a new file is created.
+         - small fixes
+Update -- Nathaniel Huesler: 06/02/2018
+    -CSV_File class "open_file" method has been changed to "open_file_". methods named "open_file" in inherited classes overwited base class "open_file" method.
+        There seems to be no way to explicitly call base class method from the base class. super() does not work as the base class has not super().
+    - Leaving arguments "filename" and "perms" when using methods, such as "open_file" and "create_file", when left as "None" or as an empty string will use the last used
+        perms and file dirrectory.
+    - Having the "filename" not as "None" or "" will overwite the file dirrectory of the class.
+    - Opening a file will implicity extract the data and store each element in a list with the correct type.
+    
     
 Use this file to access and edit csv files. There are some simple rules.
 (1):data are seperated with commas.
@@ -56,26 +65,26 @@ class CSV_File():
         self.raw = "" # the data directly copied from a csv file.
         self.data = [] # this will hold the individual elements of the csv file.
 
-        if (filename != ""):
-            self.open_file(filename , self.perms)
-
-    def open_file(self , filename , perms):
         if (filename == None):
-            filename = self.file_dir
-        if (path.isfile(filename) == False): # check if the file exists
-            print ("Error -- CSV_File::open: File '{0}' does not exist".format(filename))
+            self.file_dir = ""
+        if (self.file_dir != ""):
+            self.open_file_(self.file_dir , self.perms)# ---------
+
+    def open_file_(self , filename , perms):
+        if (filename != None and filename != ""):
+            self.file_dir = filename
+        if (perms != None and filename != ""):
+            self.perms = perms
+            
+        if (path.isfile(self.file_dir) == False and self.perms == "r"): # check if the file exists
+            print ("Error -- CSV_File::open: File '{0}' does not exist".format(self.file_dir))
             return
         self.raw = ""
-        with open(filename , perms) as file:
+        with open(self.file_dir , self.perms) as file:
             for line in file:
                 self.raw += line
-        
-        #file = open(filename , perms)
-        #for lines in file.line(): # go though the file and copy it's content into "self.raw"
-        #    self.raw += letters
-        self.file_dir = filename
-
         file.close()
+        self.extract()
 
     def extract(self): # starter method. this will call the CSV_file.extract_loop() method.
         line = "" # this will temporarily hold one line of the csv file.
@@ -191,10 +200,12 @@ class CSV_File():
 
 class CSV_File_Read(CSV_File):
     def __init__(self , filename):
-        super().__init__(filename , "r")
+        super().__init__(filename , "r+")
 
     def open_file(self , filename):
-        super().open_file(filename , "r")
+        self.perms = "r"
+        self.file_dir = filename
+        super().open_file_()
 
     def get_data(self , index): # returns the data at a given index.
         if (index >= len(self.data) or index < 0):
@@ -206,16 +217,17 @@ class CSV_File_Read(CSV_File):
 
 class CSV_File_Write(CSV_File):
     def __init__(self , filename):
-        super().__init__(filename , "r+")
+        super().__init__(filename , "w+")
 
     def open_file(self , filename):
-        super().open_file(filename , "r+")
+        super().open_file_(filename , "w+")
 
     def create_file(self , filename , suffix):
         self.file_dir = path.dirname(path.abspath(__file__)) + "\\" + filename + "." + suffix
         tempory_file = open(self.file_dir , "w+")
         tempory_file.close()
-        super().open_file(self.file_dir , "r+")
+
+        super().open_file_(self.file_dir , "w+")
         super().extract()
 
     def add_record(self , data_in): # adds a record, no checking involved.
@@ -238,14 +250,10 @@ class CSV_File_Write(CSV_File):
             return
         
     def save(self , filename):
-        if (filename == None):
-            filename = self.file_dir
-        if (path.isfile(filename) == False): # check if the file exists
-            pass
-            #print ("Error -- CSV_File_Write::save: File '{0}' does not exist".format(filename))
-            #return
+        if (filename != "" and filename != None):
+            self.file_dir = filename
         
-        with open(filename , "w+") as file:
+        with open(self.file_dir , "w+") as file:
             self.raw = ""
             for record in self.data:
                 self.raw += self.compress(record) + "\n"
@@ -266,14 +274,11 @@ class CSV_File_Write(CSV_File):
         return (result)
 
 
-"""file_data = CSV_File_Write("Z:\\A level\\Robots\\Source_Code\\Database\\data.txt")
-file_data.extract()
-file_data.open_file("data_2.txt" , "r")
-file_data.extract()
-#file_data.save("data_3.txt" , "a")
-
+"""file_data = CSV_File_Write(None)
+file_data.create_file("dummy_file" , "txt")
+file_data.open_file("data_2.txt")
 file_data.add_record(["hello thete , gfdf"])
-file_data.extract()
+file_data.save("data_3.txt" , "a")
 
 file_data.print_data()
 
@@ -282,5 +287,4 @@ file_data.print_data()
 #file_data.save("data_3.txt" , "a")
 #print ("-------------------------------")
 #file_data.print_data()"""
-
 
