@@ -35,7 +35,6 @@ def save(score):
     user_profile = profile.User_Profile(username)
     user_profile.update_score(score)
     user_profile.add_game_record('Space_Invaders')
-    user_profile.save()
 
 
 SCREEN      = display.set_mode((800,600))
@@ -603,8 +602,9 @@ class SpaceInvaders(object):
                 score_display = score
                 #score_display = score_display + (player.lives * 500)
                 scoretext = largefont.render(str(score_display), True, WHITE)
+                x_shift = len(str(score_display)) * 25
                 SCREEN.blit(scorebackground, [0,0])
-                SCREEN.blit(scoretext, [width/2-60, height/2 - 50])
+                SCREEN.blit(scoretext, [width/2-x_shift, height/2 - 50])
                 display.update()
                 time.wait(5000)
 
