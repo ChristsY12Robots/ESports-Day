@@ -222,8 +222,12 @@ class CSV_File_Write(CSV_File):
     def open_file(self , filename):
         super().open_file_(filename , "w+")
 
-    def create_file(self , filename , suffix):
-        self.file_dir = path.dirname(path.abspath(__file__)) + "\\" + filename + "." + suffix
+    def create_file(self , filename , suffix , current):
+        if (current == True):
+            self.file_dir = path.dirname(path.abspath(__file__)) + "\\" + filename + "." + suffix
+        else:
+            self.file_dir = filename + "." + suffix
+        
         tempory_file = open(self.file_dir , "w+")
         tempory_file.close()
 
