@@ -25,7 +25,7 @@ PURPLE  = (203, 0, 255)
 RED     = (237, 28, 36)
 
 #added 1/2/18
-scorebackground = image.load("scorebackground.jpg")
+scorebackground = image.load("scoreboardsi.jpg")
 largefont = font.SysFont('Verdana', 40)
 width,height = 800,600
 
