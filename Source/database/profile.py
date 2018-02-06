@@ -89,7 +89,7 @@ class User_Profile():
         
     
 
-def play_game():
+"""def play_game():
     print ("playing game")
     return (random.randint(10 , 100))
 
@@ -98,6 +98,6 @@ def play_games(profile):
     profile.add_game_record("robots")
         
 profile = User_Profile("spam")
-play_games(profile)
+play_games(profile)"""
 
 
