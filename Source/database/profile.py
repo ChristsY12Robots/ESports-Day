@@ -84,6 +84,7 @@ class User_Profile():
             error_log = csv_edit.CSV_File_Write("")
             error_log.add_record([str(err)])
             error_log.save("Z:\\" + self.username + "_error_log.esp")
+            input("Press enter to continue")
 
         
     
