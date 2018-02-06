@@ -1,7 +1,7 @@
 # work in progress.
 
 import datetime
-print (datetime.datetime.now())
+#print (datetime.datetime.now())
 
 """
 Nathaniel Huesler: 03/12/2017
