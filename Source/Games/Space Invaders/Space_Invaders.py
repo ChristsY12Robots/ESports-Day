@@ -26,7 +26,7 @@ RED     = (237, 28, 36)
 
 #added 1/2/18
 scorebackground = image.load("scoreboardsi.jpg")
-largefont = font.SysFont('Verdana', 40)
+largefont = font.SysFont('Verdana', 80)
 width,height = 800,600
 
 #added Miles 1/2/18
@@ -413,14 +413,15 @@ class SpaceInvaders(object):
         self.keys = key.get_pressed()
         for e in event.get():
             
-            #added 1/2/18
-            if e.key == K_ESCAPE:
-                quit()
-                sys.exit()
+            
 
             if e.type == QUIT:
                 sys.exit()
             if e.type == KEYDOWN:
+                #added 1/2/18
+                if e.key == K_ESCAPE:
+                    quit()
+                    sys.exit()
                 if e.key == K_SPACE:
                     if len(self.bullets) == 0 and self.shipAlive:
                         if self.score < 1000:
@@ -603,7 +604,7 @@ class SpaceInvaders(object):
                 #score_display = score_display + (player.lives * 500)
                 scoretext = largefont.render(str(score_display), True, WHITE)
                 SCREEN.blit(scorebackground, [0,0])
-                SCREEN.blit(scoretext, [width/2-50, height/2 - 5])
+                SCREEN.blit(scoretext, [width/2-60, height/2 - 50])
                 display.update()
                 time.wait(5000)
 
@@ -623,7 +624,7 @@ class SpaceInvaders(object):
         #added 1/2/18 CHANGE
             score=self.score
             self.end_screen_display(score)
-            #save(score)
+            save(score)
 
     def main(self):
         while True:
