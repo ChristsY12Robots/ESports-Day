@@ -64,7 +64,6 @@ class User_Profile():
     def save(self):
         self.file.open_file(None)
         self.file.save(None) # make a local copy.
-
         game = self.file
         
       
@@ -90,7 +89,8 @@ class User_Profile():
     
 
 """def play_game():
-  return (random.randint(10 , 100))
+    print ("playing game")
+    return (random.randint(10 , 100))
 
 def play_games(profile):
     profile.update_score(play_game())
@@ -99,6 +99,5 @@ def play_games(profile):
         
 profile = User_Profile("spam")
 play_games(profile)"""
-
 
 
