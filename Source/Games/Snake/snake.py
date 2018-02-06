@@ -103,7 +103,6 @@ class game():
         user_profile = profile.User_Profile(username)
         user_profile.update_score(self.snake.score)
         user_profile.add_game_record('Snake')
-        user_profile.save()
         
     def over(self):
         self.save()
