@@ -3,7 +3,7 @@ import random
 import sys
 import time
 import os
-import profile
+'''import profile'''
 
 username = os.getlogin()
 
@@ -315,6 +315,7 @@ while gameloop == True:
     num_scraps = 0
 
     fps.tick(60) #Sets FPS to 60
+    
     for event in pygame.event.get(): #Checks each event
         if event.type == pygame.QUIT: #If one of the events are quit (when the user clicks the X in the top right corner) the window closes
             pygame.quit()
