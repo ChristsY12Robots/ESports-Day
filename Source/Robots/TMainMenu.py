@@ -1,8 +1,8 @@
-import PyInstaller
+import subprocess
 import pygame
 import os
 import subprocess
-'''import profile'''
+import profile
 import importlib.util
 
 width, height = 1000,800
@@ -23,6 +23,7 @@ tetris_img = pygame.image.load('TETRIS.png')
 tetris_low = pygame.image.load('TETRISLOW.png')
 spaceinvaders_img = pygame.image.load('SPACEINVADERS.png')
 spaceinvaders_low = pygame.image.load('SPACEINVADERSLOW.png')
+
 
 #editted by Miles Burne 1/2/18 to add reciver functionality in the launching and closing of tetris and pacman
 import getpass #to get the user's name
@@ -48,7 +49,13 @@ def reciever(game):
     
 
 def pacman():
-    reciever('pacman')
+    subprocess.call('pacman.pyw', shell = True)
+    reciever('Pacman')
+    '''os.system("Z:\My Documents\Sixth Form\Computer Science\ESports-Day-master\Source\Games\Pacman\pacman.pyw")
+    spec = importlib.util.spec_from_file_location("pacman.pyw", "Z:\My Documents\Sixth Form\Computer Science\ESports-Day-master\Source\Games\Pacman\pacman.pyw")
+    foo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(foo)
+    foo.MyClass()'''
     
 
 def run():
@@ -60,15 +67,30 @@ def run():
     '''os.system('main.py')'''
 
 def space_invaders():
-    print('SpaceInvaders')
+    os.system('"Z:\My Documents\Sixth Form\Computer Science\ESports-Day-master\Source\Games\Space Invaders\Space_Invaders.py"')
+    '''spec = importlib.util.spec_from_file_location("Space_Invaders.py", "Z:\My Documents\Sixth Form\Computer Science\ESports-Day-master\Source\Games\Space Invaders\Space_Invaders.py")
+    foo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(foo)
+    foo.MyClass()'''
 
 def tetris():
-    subprocess.call('main.py', shell = True)
-    reciever('tetris')
+    subprocess.call('Tetris.py', shell = True)
+    reciever('Tetris')
+    '''
+    spec = importlib.util.spec_from_file_location("Tetris.py", "Z:\My Documents\Sixth Form\Computer Science\ESports-Day-master\Source\Games\Tetris\Tetris.py")
+    foo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(foo)
+    foo.MyClass()
+    reciever('Tetris')
+    '''
 
 
 def snake():
-    pass
+    spec = importlib.util.spec_from_file_location("snake.py", "Z:\My Documents\Sixth Form\Computer Science\ESports-Day-master\Source\Games\Snake\snake.py")
+    foo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(foo)
+    foo.MyClass()
+
 
 def menu_animation():
     finished_animation = False
