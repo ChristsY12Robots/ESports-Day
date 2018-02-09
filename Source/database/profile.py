@@ -2,6 +2,8 @@ import csv_edit
 import time
 import random
 
+import os, sys
+
 import mysql.connector
 
 """
