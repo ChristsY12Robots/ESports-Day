@@ -65,27 +65,34 @@ class User_Profile():
         self.file.open_file(None)
         self.file.save(None) # make a local copy.
         game = self.file
-        
-      
+    
+    def profile_user_get(self):
+        pathname = os.path.dirname(sys.argv[0])
+        if pathname == "ENTER PATH HERE": #CHANGE
+            return(True)
+        else:
+            return(False)
         
     def add_game_record(self , game):
-        self.file.add_record([game , self.score])
-        self.save()
-        try:
-            self.db = mysql.connector.connect(user=usr, password=pwd, host=h, database=db, port=p) # connect to database
-            self.cursor = self.db.cursor()
-      
-            self.cursor.execute("INSERT INTO gamescores (User, Game, Score) VALUES('{0}' , '{1}' , {2})".format(self.username , game , self.score)) # execute insert command
-            self.db.commit() # commit changes.
+        if self.profile_user_get == True:
+            self.file.add_record([game , self.score])
+            self.save()
+            try:
+                self.db = mysql.connector.connect(user=usr, password=pwd, host=h, database=db, port=p) # connect to database
+                self.cursor = self.db.cursor()
 
-            self.cursor.close()
-            self.db.close()
-        except mysql.connector.Error as err:
-            error_log = csv_edit.CSV_File_Write("")
-            error_log.add_record([str(err)])
-            error_log.save("Z:\\" + self.username + "_error_log.esp")
-            input("Press enter to continue")
+                self.cursor.execute("INSERT INTO gamescores (User, Game, Score) VALUES('{0}' , '{1}' , {2})".format(self.username , game , self.score)) # execute insert command
+                self.db.commit() # commit changes.
 
+                self.cursor.close()
+                self.db.close()
+            except mysql.connector.Error as err:
+                error_log = csv_edit.CSV_File_Write("")
+                error_log.add_record([str(err)])
+                error_log.save("Z:\\" + self.username + "_error_log.esp")
+                input("Press enter to continue")
+        else:
+            pass
         
     
 
