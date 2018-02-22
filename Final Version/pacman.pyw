@@ -104,7 +104,7 @@ ghostcolor[5] = (255, 255, 255, 255) # white, flashing ghost
 #FUNCTION WIPES SAVE FILE TO ENSURE PROPERLY SAVED FILES
 def file_game_start():
     game = "pacman"
-    file_name = str("./game_data/"+str(getpass.getuser().lower())+"_"+game+".esp")
+    file_name = str("Z:/"+str(getpass.getuser().lower())+"_"+game+".esp")
     f = open(file_name, "w")
     f.close()
 
@@ -140,11 +140,12 @@ class game ():
                   
         def writehiscores(self,hs):
                 """Given a new list, write it to the default file."""
-                fname=os.path.join(SCRIPT_PATH,"res","hiscore.txt")
-                f=open(fname,"w")
-                for line in hs:
-                  f.write(str(line[0])+" "+line[1]+"\n")
-                f.close()
+                #fname=os.path.join(SCRIPT_PATH,"res","hiscore.txt")
+                #f=open(fname,"w")
+                #for line in hs:
+                #  f.write(str(line[0])+" "+line[1]+"\n")
+                #f.close()
+                pass
                 
         def getplayername(self):
                 """Ask the player his name, to go on the high-score list."""
@@ -1487,7 +1488,7 @@ def GetCrossRef ():
 #added 31/1/18
 def save_file(score):
     game = "pacman" #could be changed
-    file_name = str("./game_data/"+str(getpass.getuser().lower())+"_"+game+".esp")
+    file_name = str("Z:/"+str(getpass.getuser().lower())+"_"+game+".esp")
     f = open(file_name, "a")
     f.write(str(score)+","+game+"\n")
     f.close()

@@ -36,7 +36,7 @@ import getpass #to get the user's name
 def reciever(game):
     username = (getpass.getuser()).lower() #I found an issue where if the user logs in with caps enabled, the username will be all caps in program. Not a big deal but may as well solve it.
     user_profile = profile.User_Profile(username) #getting user profile
-    filename = ("./game_data/"+str(username)+"_"+str(game)+".esp") #getting filename
+    filename = ("Z:/"+str(username)+"_"+str(game)+".esp") #getting filename
     f = open(filename, "r")
     content = f.read()
     content = content.split("\n") #file now split into number of records
@@ -45,6 +45,10 @@ def reciever(game):
         x = x.split(",") #now split into [score, game]
         user_profile.update_score(x[0])# updating the score
         user_profile.add_game_record(game)
+    #closes and deletes the file
+    f.close()
+    os.remove(filename)
+    
      
     
 

@@ -12,7 +12,7 @@ import sys
 from random import shuffle, randrange, choice
 import os
 import getpass
-#import profile
+import profile
 #import mysql.connector
 init()
 #           R    G    B
@@ -28,41 +28,15 @@ scorebackground = image.load("scoreboardsi.jpg")
 largefont = font.SysFont('Verdana', 80)
 width,height = 800,600
 
-game = "Space_Invaders"
-file_name = str("./game_data/"+str(getpass.getuser().lower())+"_"+game+".esp")
-f = open(file_name, "w")
-f.close()
+
 
 #added Miles 1/2/18
 def save(score):
-    '''
-    usr = 'esportsuser'
-    pwd = 'cscs1'
-    h = 'raspberrypi.local'
-    db = 'esports'
-    p = 3306
-    
     username = getpass.getuser()
-    
     user_profile = profile.User_Profile(username)
     user_profile.update_score(score)
     user_profile.add_game_record('Space_Invaders')
     
-    db = mysql.connector.connect(user=usr, password=pwd, host=h, database=db, port=p) # connect to database
-    cursor = db.cursor()
-
-    cursor.execute("INSERT INTO gamescores (User, Game, Score) VALUES('{0}' , '{1}' , {2})".format(username , "Space_Invaders" , score)) # execute insert command
-    db.commit() # commit changes.
-
-    cursor.close()
-    db.close()
-    '''
-    game = "Space_Invaders"
-    file_name = str("./game_data/"+str(getpass.getuser().lower())+"_"+game+".esp")
-    f = open(file_name, "a")
-    f.write(str(score)+","+game+"\n")
-    f.close()
-
 
 SCREEN      = display.set_mode((800,600))
 FONT = "fonts/space_invaders.ttf"

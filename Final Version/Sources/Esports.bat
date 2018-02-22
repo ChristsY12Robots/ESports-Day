@@ -1,0 +1,1 @@
+start /d "M:\Computer Science\sixth\ESports-Day-master\Source\Final Version" TMainMenu.py

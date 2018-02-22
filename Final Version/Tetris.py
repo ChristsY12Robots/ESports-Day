@@ -45,7 +45,7 @@ import pygame, sys, getpass
 #added 31/1/18
 def file_game_start():
     game = "tetris"
-    file_name = str("./game_data/"+str(getpass.getuser().lower())+"_"+game+".esp")
+    file_name = str("Z:/"+str(getpass.getuser().lower())+"_"+game+".esp")
     f = open(file_name, "w")
     f.close()
 
@@ -147,7 +147,7 @@ class TetrisApp(object):
         #added 31/1/18
         def save_file(self):
             game = "tetris" #could be changed
-            file_name = str("./game_data/"+str(getpass.getuser().lower())+"_"+game+".esp")
+            file_name = str("Z:/"+str(getpass.getuser().lower())+"_"+game+".esp")
             f = open(file_name, "a")
             f.write(str(self.score)+","+game+"\n")
             f.close()
